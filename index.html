@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santuri Studio Booking</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #111;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 30px 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #b5b5b5;
+            font-size: 1rem;
+        }
+
+        .booking {
+            padding: 20px;
+        }
+
+        .calendly-inline-widget {
+            min-width: 320px;
+            height: 750px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .header {
+                padding: 30px 20px 15px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .booking {
+                padding: 10px;
+            }
+
+            .calendly-inline-widget {
+                height: 700px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="header">
+            <h1>Santuri Studio</h1>
+            <p>Select a date and time below to book the studio.</p>
+        </div>
+
+        <div class="booking">
+
+            <!-- Calendly inline widget begin -->
+            <div
+                class="calendly-inline-widget"
+                data-url="https://calendly.com/studio-santuri/studio-bookings">
+            </div>
+
+            <script
+                src="https://assets.calendly.com/assets/external/widget.js"
+                async>
+            </script>
+            <!-- Calendly inline widget end -->
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
