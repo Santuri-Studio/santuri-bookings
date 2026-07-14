@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Santuri Studio Booking</title>
 
+    <!-- Calendly CSS -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -55,9 +58,16 @@
             padding: 20px;
         }
 
+        .booking h2 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
         .calendly-inline-widget {
             min-width: 320px;
             height: 750px;
+            margin-bottom: 50px;
         }
 
         @media (max-width: 768px) {
@@ -79,6 +89,7 @@
 
             .calendly-inline-widget {
                 height: 700px;
+                margin-bottom: 40px;
             }
         }
     </style>
@@ -91,28 +102,33 @@
 
         <div class="header">
             <h1>Santuri Studio</h1>
-            <p>Select a date and time below to book the studio.</p>
+            <p>Select a service below to make your booking.</p>
         </div>
 
         <div class="booking">
 
-            <!-- Calendly inline widget begin -->
+            <h2>Studio Bookings</h2>
+
             <div
                 class="calendly-inline-widget"
                 data-url="https://calendly.com/studio-santuri/studio-bookings">
             </div>
 
-            <script
-                src="https://assets.calendly.com/assets/external/widget.js"
-                async>
-            </script>
-            <!-- Calendly inline widget end -->
+            <h2>DJ Practice Sessions</h2>
+
+            <div
+                class="calendly-inline-widget"
+                data-url="https://calendly.com/djpractice-santuri/30min?primary_color=787878">
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+<!-- Calendly Script (only once) -->
+<script src="https://assets.calendly.com/assets/external/widget.js"></script>
 
 </body>
 </html>
