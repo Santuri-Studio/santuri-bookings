@@ -47,7 +47,13 @@ body{
 
     min-height:300px;
 
-    background:#ffffff;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,1) 0%,
+            rgba(255,255,255,0.95) 45%,
+            rgba(255,255,255,0.75) 100%
+        );
 
     /* background:
         linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
@@ -369,11 +375,31 @@ footer p{
 
 }
 
+#topography {
+
+    position: fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    z-index:-1;
+
+    opacity:0.08;
+
+    pointer-events:none;
+
+}
+
 </style>
 
 </head>
 
 <body>
+
+<canvas id="topography"></canvas>
 
 <header class="hero">
 
@@ -533,6 +559,191 @@ Book DJ Practice
 </footer>
 
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+<script>
+
+const canvas = document.getElementById("topography");
+const ctx = canvas.getContext("2d");
+
+let width;
+let height;
+
+let time = 0;
+
+function resize(){
+
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+
+function field(x,y){
+
+    return (
+        Math.sin(x * 0.008 + time) +
+        Math.cos(y * 0.009 + time * 0.7) +
+        Math.sin((x+y)*0.004)
+    ) / 3;
+
+}
+
+
+const resolution = 25;
+
+
+function interpolate(a,b,level){
+
+    return (level-a)/(b-a);
+
+}
+
+
+function drawContours(){
+
+    ctx.clearRect(0,0,width,height);
+
+    ctx.strokeStyle="#111";
+    ctx.lineWidth=0.8;
+
+
+    const cols=Math.ceil(width/resolution);
+    const rows=Math.ceil(height/resolution);
+
+
+    let values=[];
+
+
+    for(let x=0;x<=cols;x++){
+
+        values[x]=[];
+
+        for(let y=0;y<=rows;y++){
+
+            values[x][y]=field(
+                x*resolution,
+                y*resolution
+            );
+
+        }
+
+    }
+
+
+    const levels=[
+        -0.6,
+        -0.4,
+        -0.2,
+        0,
+        0.2,
+        0.4,
+        0.6
+    ];
+
+
+    levels.forEach(level=>{
+
+
+        ctx.beginPath();
+
+
+        for(let x=0;x<cols;x++){
+
+            for(let y=0;y<rows;y++){
+
+
+                let a=values[x][y];
+                let b=values[x+1][y];
+                let c=values[x+1][y+1];
+                let d=values[x][y+1];
+
+
+                let points=[];
+
+
+                if((a<level)!=(b<level)){
+
+                    points.push([
+                        x*resolution+
+                        interpolate(a,b,level)*resolution,
+                        y*resolution
+                    ]);
+
+                }
+
+
+                if((b<level)!=(c<level)){
+
+                    points.push([
+                        (x+1)*resolution,
+                        y*resolution+
+                        interpolate(b,c,level)*resolution
+                    ]);
+
+                }
+
+
+                if((c<level)!=(d<level)){
+
+                    points.push([
+                        x*resolution+
+                        interpolate(d,c,level)*resolution,
+                        (y+1)*resolution
+                    ]);
+
+                }
+
+
+                if((d<level)!=(a<level)){
+
+                    points.push([
+                        x*resolution,
+                        y*resolution+
+                        interpolate(a,d,level)*resolution
+                    ]);
+
+                }
+
+
+                if(points.length===2){
+
+                    ctx.moveTo(
+                        points[0][0],
+                        points[0][1]
+                    );
+
+                    ctx.lineTo(
+                        points[1][0],
+                        points[1][1]
+                    );
+
+                }
+
+
+            }
+
+        }
+
+
+        ctx.stroke();
+
+    });
+
+
+    time+=0.002;
+
+    requestAnimationFrame(drawContours);
+
+}
+
+
+drawContours();
+
+
+</script>
 
 </body>
 </html>
